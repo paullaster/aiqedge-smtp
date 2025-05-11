@@ -1,0 +1,96 @@
+import { Model, ModelStatic, Optional } from 'sequelize';
+
+export interface Email {
+  to: string | string[];
+  from: string;
+  subject: string;
+  text?: string;
+  html?: string;
+  cc?: string | string[];
+  bcc?: string | string[];
+  replyTo?: string;
+  inReplyTo?: string;
+  references?: string | string[];
+  attachments?: Array<EmailAttachment>;
+  headers?: { [key: string]: string };
+  priority?: 'high' | 'normal' | 'low';
+}
+export interface EmailAttachment {
+  filename?: string;
+  content?: string | Buffer;
+  path?: string;
+  contentType?: string;
+  encoding?: string;
+  cid?: string;
+}
+
+export interface RequestBody {
+  greetings?: string,
+  to: string | string[];
+  from: string;
+  subject: string;
+  body: BodyOfRequestTypes[];
+  action?: ActionOfRequestTypes[];
+  regards?: EmailRegardsType
+  cc?: string | string[];
+  bcc?: string | string[];
+  replyTo?: string;
+  attachments?: Array<{
+    filename: string;
+    content: string;
+    mimetype: string;
+    ext?: string;
+  }>;
+}
+
+export interface BodyOfRequestTypes {
+  line: string,
+  style?: Record<string, any>,
+}
+
+export interface ActionOfRequestTypes {
+  capton: string,
+  url: string,
+  style?: Record<string, any>,
+}
+
+export interface EmailRegardsType {
+  caption: string;
+  name?: string;
+  signature?: string;
+}
+
+export interface SmtpConfig {
+  host: string;
+  port: number;
+  secure: boolean;
+  user: string;
+  pass: string;
+}
+
+export type Rotation = 'daily' | 'size'
+
+export type Environments = 'development' | 'test' | 'staging' | 'production'
+
+export interface EmailAttributes {
+  id: number;
+  to: string;
+  from: string;
+  subject: string;
+  text?: string;
+  html?: string;
+  cc?: string;
+  bcc?: string;
+  replyTo?: string;
+  attachments?: string; // Serialized JSON or similar
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface EmailCreationAttributes extends Optional<EmailAttributes, 'id' | 'createdAt' | 'updatedAt'> { }
+
+export interface ModelTypes {
+  Email: ModelStatic<Model<EmailAttributes, EmailCreationAttributes>>;
+}
+
+export type EmailProviders = 'nodemailer'

@@ -1,0 +1,45 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env*
+!.env.example
+
+# Logs
+logs/
+*.log
+storage/logs/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.swp
+
+# Test coverage
+coverage/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# npm debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+*.tgz
+
+# Ignore local database files
+*.sqlite
+*.db
+
+# Ignore public and meta files (but not source or config)
+public/
+meta/

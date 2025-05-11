@@ -1,0 +1,53 @@
+// Use environment variables for all DB config
+require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : `.env.${process.env.NODE_ENV || 'development'}` });
+
+module.exports = {
+  development: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    timezone: process.env.APP_TIMEZONE,
+    logging: process.env.SEQUELIZE_LOG_QUERY_PARAMETERS === 'true',
+    pool: {
+      max: parseInt(process.env.POOL_MAX || '5'),
+      min: parseInt(process.env.POOL_MIN || '0'),
+      acquire: parseInt(process.env.POOL_ACQUIRE || '30000'),
+      idle: parseInt(process.env.POOL_IDLE || '10000'),
+    },
+  },
+  test: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    timezone: process.env.APP_TIMEZONE,
+    logging: false,
+    pool: {
+      max: 1,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  },
+  production: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    timezone: process.env.APP_TIMEZONE,
+    logging: false,
+    pool: {
+      max: parseInt(process.env.POOL_MAX || '5'),
+      min: parseInt(process.env.POOL_MIN || '0'),
+      acquire: parseInt(process.env.POOL_ACQUIRE || '30000'),
+      idle: parseInt(process.env.POOL_IDLE || '10000'),
+    },
+  },
+};
