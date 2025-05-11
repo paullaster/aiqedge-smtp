@@ -141,13 +141,14 @@ CREATE TABLE IF NOT EXISTS emails (
   id SERIAL PRIMARY KEY,
   to_address VARCHAR(255) NOT NULL,
   from_address VARCHAR(255) NOT NULL,
-  cc VARCHAR(255),
-  bcc VARCHAR(255),
-  reply_to VARCHAR(255),
+  cc TEXT,
+  bcc TEXT,
+  reply_to TEXT,
   subject VARCHAR(255) NOT NULL,
-  text TEXT,
   html TEXT,
-  attachments JSONB
+  attachments JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
