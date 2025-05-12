@@ -2,6 +2,7 @@ import express from 'express';
 import promClient from 'prom-client';
 import { setRoutes } from './interfaces/routes/smtpRoutes.ts';
 import { errorHandler } from './interfaces/controllers/errorHandler.ts';
+import './infrastructure/queue/emailQueueProvider.ts';
 
 const app = express();
 

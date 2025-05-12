@@ -23,7 +23,7 @@ export default function (sequelize: Sequelize, DataTypes: any) {
         }
     }
     EmailModel.init({
-        id: { type: DataTypes.BIGINT, primaryKey: true },
+        id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
         to: DataTypes.JSON,
         from: DataTypes.STRING,
         subject: DataTypes.STRING,

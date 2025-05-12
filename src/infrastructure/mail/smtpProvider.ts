@@ -1,6 +1,6 @@
-import { Email, EmailProviders } from '../../types';
-import { ISmtpProvider } from '../../domain/repositories/smtpRepository';
-import { EmailTransportProvider } from './emailTransportProvider';
+import { EmailTransportProvider } from './emailTransportProvider.ts';
+import type { Email, EmailProviders } from '../../types/index.ts';
+import type { ISmtpProvider } from '../../domain/repositories/smtpRepository.ts';
 
 export class SmtpProvider implements ISmtpProvider {
     async sendMail(provider: EmailProviders, email: Email) {

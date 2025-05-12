@@ -18,11 +18,11 @@ export class EmailStorageService {
     }
 
     async saveEmail(email: EmailEntity): Promise<void> {
-        await this.db.save<EmailEntity>('emails', email);
+        await this.db.save<EmailEntity>('Email', email);
     }
 
     async getAllEmails(): Promise<EmailEntity[]> {
-        return this.db.findAll<EmailEntity>('emails');
+        return this.db.findAll<EmailEntity>('Email');
     }
 
     async saveAttachmentFromBase64({ base64Content, filename = 'random', clientId, mimetype }: SaveAttachmentParams): Promise<{ path: string, finalFilename: string, ext: string }> {

@@ -1,5 +1,5 @@
-import { EmailProviders } from "../../types";
-import { EmailEntity } from "../entities/emailEntity";
+import { EmailEntity } from "../entities/emailEntity.ts";
+import type { EmailProviders } from "../../types/index.ts";
 
 export interface ISmtpProvider {
     sendMail(provider: EmailProviders, email: {
@@ -30,10 +30,6 @@ export interface IDatabaseProvider {
     findAll<T>(collection: string): Promise<T[]>;
 }
 
-/**
- * IQueueProvider abstracts queue operations for background jobs (e.g., email sending).
- * This enables swapping queue implementations (BullMQ, RabbitMQ, etc.) with zero impact on business logic.
- */
 export interface IQueueProvider {
     add<T>(queueName: string, data: T): Promise<void>;
 }

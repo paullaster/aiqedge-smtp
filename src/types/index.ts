@@ -1,4 +1,5 @@
-import { Model, ModelStatic, Optional } from 'sequelize';
+import { Model } from 'sequelize';
+import type { ModelStatic, Optional } from 'sequelize';
 
 export interface Email {
   to: string | string[];
@@ -30,7 +31,7 @@ export interface RequestBody {
   from: string;
   subject: string;
   body: BodyOfRequestTypes[];
-  action?: ActionOfRequestTypes[];
+  actions?: ActionOfRequestTypes[];
   regards?: EmailRegardsType
   cc?: string | string[];
   bcc?: string | string[];
@@ -49,7 +50,7 @@ export interface BodyOfRequestTypes {
 }
 
 export interface ActionOfRequestTypes {
-  capton: string,
+  caption: string,
   url: string,
   style?: Record<string, any>,
 }
@@ -82,7 +83,7 @@ export interface EmailAttributes {
   cc?: string;
   bcc?: string;
   replyTo?: string;
-  attachments?: string; // Serialized JSON or similar
+  attachments?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -93,4 +94,9 @@ export interface ModelTypes {
   Email: ModelStatic<Model<EmailAttributes, EmailCreationAttributes>>;
 }
 
-export type EmailProviders = 'nodemailer'
+export type EmailProviders = 'nodemailer';
+
+export interface ILogger {
+  log(message: string, meta?: Record<string, any>): void;
+  error(message: string, meta?: Record<string, any>): void;
+}

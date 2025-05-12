@@ -72,14 +72,15 @@ const htmlBuilder = (emailData: RequestBody) => {
   const emailBody = new EmailTemplateBuilder({ appConfig: { title: 'Email Service Prover' } });
   emailBody.addBlock('p', emailData.greetings || 'Greetings,', { fontWeight: 'bold' });
   for (const line of emailData.body) {
-    emailBody.addBlock('l', line.line, line.style);
+    emailBody.addBlock('p', line.line, line.style);
   }
-  if (emailData.action) {
-    for (const action of emailData.action) {
-      emailBody.addBlock('b', action.capton, action.url, action.style);
+  if (emailData.actions) {
+    for (const action of emailData.actions) {
+      emailBody.addBlock('b', action.caption, action.url, action.style);
     }
   }
   if (emailData.regards) {
+    emailBody.addBlock('d')
     emailBody.addBlock('p', emailData.regards.caption);
     emailBody.addBlock('p', emailData.regards.name);
     emailBody.addBlock('p', emailData.regards.signature);

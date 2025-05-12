@@ -5,7 +5,7 @@ import appConfig from "./app.ts";
 import type { Rotation } from "../../types/index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(dirname(dirname(__filename)));
+const __rootdir = dirname(dirname(dirname(dirname(__filename))));
 
 
 // ensure log directory exist
@@ -13,7 +13,6 @@ const ensureLogdir = async (dir: string) => {
     try {
         // Check directory exists
         await stat(dir);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         if (err.code === 'ENOENT') {
             // Create directory
@@ -24,7 +23,7 @@ const ensureLogdir = async (dir: string) => {
     }
 }
 
-const logDir = join(__dirname, 'storage', 'logs');
+const logDir = join(__rootdir, 'storage', 'logs');
 await ensureLogdir(logDir);
 
 const appName = appConfig.appName;

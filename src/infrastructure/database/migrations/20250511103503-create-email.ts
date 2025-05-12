@@ -1,7 +1,9 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
+import type { QueryInterface, } from "sequelize";
+
 export default {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface: QueryInterface, Sequelize: any) {
     await queryInterface.createTable('Emails', {
       id: {
         allowNull: false,
@@ -59,7 +61,7 @@ export default {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface: QueryInterface) {
     await queryInterface.dropTable('Emails');
   }
 };

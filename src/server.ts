@@ -4,16 +4,16 @@ import os from 'node:os';
 import config from './infrastructure/config/index.ts';
 import { sequelizeDatabaseProviderInstance } from './infrastructure/database/index.ts';
 import { PinoLogger } from './infrastructure/logging/pinoLogger.ts';
+import type { ILogger } from './types/index.ts';
 
 const PORT = config.app.port || 3800;
 
 // start database service
 // create a logger
-const loggerInstance = new PinoLogger('db');
+const loggerInstance: ILogger = new PinoLogger('db');
 await sequelizeDatabaseProviderInstance.initDb(loggerInstance);
 const numCPUs = parseInt(config.cluster.clusterWorkers || os.cpus().length.toString(), 10);
 
-// app.locals = //here
 
 function startServer() {
   const server = app.listen(PORT, () => {

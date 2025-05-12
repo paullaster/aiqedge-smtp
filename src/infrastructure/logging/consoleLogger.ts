@@ -1,4 +1,4 @@
-import { ILoggingProvider } from '../../domain/repositories/smtpRepository';
+import type { ILoggingProvider } from '../../domain/repositories/smtpRepository.ts';
 
 export class ConsoleLogger implements ILoggingProvider {
     log(message: string): void {

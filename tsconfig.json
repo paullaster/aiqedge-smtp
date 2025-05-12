@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "nodenext",
-    "noEmit": true, // Optional - see note below
+    "noEmit": false,
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
