@@ -1,7 +1,7 @@
-import { AppError } from '../../domain/entities/emailEntity';
-import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../../domain/entities/emailEntity.ts';
+import type { Request, Response, NextFunction } from 'express';
 
-export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+export function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
     if (err instanceof AppError) {
         res.status(err.statusCode).json({ message: err.message, error: true });
     } else {

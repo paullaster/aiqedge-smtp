@@ -1,7 +1,7 @@
 import express from 'express';
 import promClient from 'prom-client';
-import { setRoutes } from './interfaces/routes/smtpRoutes';
-import { errorHandler } from './interfaces/controllers/errorHandler';
+import { setRoutes } from './interfaces/routes/smtpRoutes.ts';
+import { errorHandler } from './interfaces/controllers/errorHandler.ts';
 
 const app = express();
 

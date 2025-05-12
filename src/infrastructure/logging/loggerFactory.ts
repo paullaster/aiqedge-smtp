@@ -1,5 +1,6 @@
-import pino, { LoggerOptions } from 'pino';
+import { pino } from 'pino';
 import { join } from 'path';
+import type { LoggerOptions } from 'pino';
 
 export interface LoggerFactoryOptions {
     channel: string;

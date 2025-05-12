@@ -1,8 +1,8 @@
-import { AppError, EmailEntity } from '../../domain/entities/emailEntity';
-import { EmailStorageService } from '../services/emailStorageService';
-import { SmtpService } from '../services/smtpService';
-import { Email, EmailAttachment, RequestBody } from '../../types';
+import { AppError, EmailEntity } from '../../domain/entities/emailEntity.ts';
+import { EmailStorageService } from '../services/emailStorageService.ts';
+import { SmtpService } from '../services/smtpService.ts';
 import { EmailTemplateBuilder } from '@brainspore/shackuz';
+import type { Email, EmailAttachment, RequestBody } from '../../types/index.ts';
 
 export const executeSendEmail = async (
   emailData: RequestBody,

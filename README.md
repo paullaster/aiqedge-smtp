@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS emails (
 
 ### Send Email
 
-- **POST** `/smtp/send`
+- **POST** `/smtp/:random-code/send`
   - Request Body (all Nodemailer options supported):
     ```json
     {
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS emails (
         {
           "filename": "file.txt",
           "content": "SGVsbG8gd29ybGQ=",
-          "encoding": "base64"
+          "mimetype": "application/pdf"
         }
       ]
     }
@@ -273,7 +273,7 @@ WantedBy=multi-user.target
 - **Add a new provider:**
   - Define an interface in `domain/repositories/`
   - Implement it in `infrastructure/`
-  - Inject via the composition root (routes/controllers)
+  - Inject via the composition root (interface/routes/controllers)
 - **Add a new use case:**
   - Implement in `application/usecases/`
   - Expose via a controller/route in `interfaces/`

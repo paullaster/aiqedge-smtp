@@ -1,14 +1,20 @@
-import { Request, Response } from 'express';
-import { AppError } from '../../domain/entities/emailEntity';
-import { executeSendEmail } from '../../application/usecases/sendEmail';
-import { SmtpService } from '../../application/services/smtpService';
-import { EmailStorageService } from '../../application/services/emailStorageService';
+import type { Request, Response } from 'express';
+import { AppError } from '../../domain/entities/emailEntity.ts';
+import { executeSendEmail } from '../../application/usecases/sendEmail.ts';
+import { SmtpService } from '../../application/services/smtpService.ts';
+import { EmailStorageService } from '../../application/services/emailStorageService.ts';
 
 class SmtpController {
+    private smtpService: SmtpService;
+    private emailStorageService: EmailStorageService;
+
     constructor(
-        private smtpService: SmtpService,
-        private emailStorageService: EmailStorageService
-    ) { }
+        smtpService: SmtpService,
+        emailStorageService: EmailStorageService
+    ) {
+        this.smtpService = smtpService;
+        this.emailStorageService = emailStorageService;
+    }
 
     async sendEmail(req: Request, res: Response): Promise<void> {
         try {

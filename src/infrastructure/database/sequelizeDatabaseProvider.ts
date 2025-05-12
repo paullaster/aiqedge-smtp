@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import { Environments } from '../../types';
-import config from '../config';
-import { IDatabaseProvider } from '../../domain/repositories/smtpRepository';
+import config from '../config/index.ts';
+import type { IDatabaseProvider } from '../../domain/repositories/smtpRepository.ts';
+import type { Environments } from '../../types/index.ts';
 
 class SequelizeDatabaseProvider implements IDatabaseProvider {
     private sequelize: Sequelize;
@@ -9,7 +9,8 @@ class SequelizeDatabaseProvider implements IDatabaseProvider {
 
     constructor(modelsToLoad: Record<string, (sequelize: Sequelize, DataTypes: any) => any>, env?: Environments) {
         const environment = env || config.app.environment as Environments;
-        this.sequelize = new Sequelize(config.db[environment]);
+        const { database, username, password, ...options } = config.db[environment];
+        this.sequelize = new Sequelize(database, username, password, options);
         this.models = {};
         // Dynamically initialize models
         for (const [name, definer] of Object.entries(modelsToLoad)) {

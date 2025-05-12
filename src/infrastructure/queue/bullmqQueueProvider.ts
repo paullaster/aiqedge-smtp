@@ -1,5 +1,5 @@
 import { Queue } from 'bullmq';
-import { IQueueProvider } from '../../domain/repositories/smtpRepository';
+import type { IQueueProvider } from '../../domain/repositories/smtpRepository.ts';
 
 
 /**

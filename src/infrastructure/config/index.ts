@@ -1,9 +1,9 @@
-import smtpConfig from './smtp';
-import appConfig from './app';
-import pinoConfig from './pino';
-import dbConfig from './db.cjs';
-import redisConfig from './redis';
-import clusterConfig from './cluster';
+import smtpConfig from './smtp.ts';
+import appConfig from './app.ts';
+import pinoConfig from './pino.ts';
+import dbConfig from './db.ts';
+import redisConfig from './redis.ts';
+import clusterConfig from './cluster.ts';
 
 const config = {
   app: appConfig,

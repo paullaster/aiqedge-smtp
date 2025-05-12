@@ -1,5 +1,5 @@
-import { IDatabaseProvider } from '../../domain/repositories/smtpRepository';
-import { EmailEntity } from '../../domain/entities/emailEntity';
+import type { IDatabaseProvider } from '../../domain/repositories/smtpRepository.ts';
+import { EmailEntity } from '../../domain/entities/emailEntity.ts';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { extension as mimeExtension } from 'mime-types';
@@ -12,7 +12,10 @@ interface SaveAttachmentParams {
 }
 
 export class EmailStorageService {
-    constructor(private db: IDatabaseProvider) { }
+    private db: IDatabaseProvider
+    constructor(db: IDatabaseProvider) {
+        this.db = db;
+    }
 
     async saveEmail(email: EmailEntity): Promise<void> {
         await this.db.save<EmailEntity>('emails', email);

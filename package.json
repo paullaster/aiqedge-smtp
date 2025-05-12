@@ -5,23 +5,19 @@
   "main": "src/server.ts",
   "scripts": {
     "build": "tsc",
-    "start": "NODE_ENV=production node -- --watch --env-file=./.env.production dist/server.js",
-    "dev": "NODE_ENV=development ts-node -- --watch --env-file=./.env.development src/server.ts",
+    "start": "NODE_ENV=production node -- --watch --env-file=./.env.production dist/server.ts",
+    "dev": "NODE_ENV=development node --experimental-transform-types --watch --env-file=./.env.development src/server.ts",
     "qa": "NODE_ENV=test node -- --watch --env-file=./.env.test dist/server.js",
     "staging": "NODE_ENV=staging node -- --watch --env-file=./.env.staging dist/server.js",
     "test": "jest",
-    "dev:migrate:up": "NODE_ENV=development dotenv -e .env.development -c development npx sequelize-cli db:migrate"
+    "dev:migrate:up": "NODE_ENV=development dotenv -e .env.development -c development npx sequelize-cli db:migrate",
+    "try-flat": "NODE_ENV=development node --env-file=./.env.development --experimental-vm-modules ./node_modules/.bin/sequelize-cli db:migrate --config dist/infrastructure/config/db.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paullaster/aiqedge-smtp.git"
   },
-  "keywords": [
-    "node",
-    "typescript",
-    "smtp",
-    "clean-architecture"
-  ],
+  "keywords": ["node", "typescript", "smtp", "clean-architecture"],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {

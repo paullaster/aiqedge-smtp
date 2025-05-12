@@ -1,12 +1,12 @@
-import { Application, Request, Response, Router as ExpressRouter } from 'express';
-import SmtpController from '../controllers/smtpController';
-import { SequelizeDatabaseProvider } from '../../infrastructure/database/sequelizeDatabaseProvider';
-import { BullMQQueueProvider } from '../../infrastructure/queue/bullmqQueueProvider';
-import { SmtpService } from '../../application/services/smtpService';
-import { EmailStorageService } from '../../application/services/emailStorageService';
-import { PinoLogger } from '../../infrastructure/logging/pinoLogger';
-import config from '../../infrastructure/config';
-import emailModel from '../../infrastructure/database/emailModel';
+import { Router as ExpressRouter } from 'express';
+import SmtpController from '../controllers/smtpController.ts';
+import { sequelizeDatabaseProviderInstance } from '../../infrastructure/database/index.ts';
+import { BullMQQueueProvider } from '../../infrastructure/queue/bullmqQueueProvider.ts';
+import { SmtpService } from '../../application/services/smtpService.ts';
+import { EmailStorageService } from '../../application/services/emailStorageService.ts';
+import { PinoLogger } from '../../infrastructure/logging/pinoLogger.ts';
+import config from '../../infrastructure/config/index.ts';
+import type { Application, Request, Response } from 'express';
 
 interface IApp extends Application { }
 
@@ -18,10 +18,9 @@ interface ILogger {
 export const setRoutes = (app: IApp): void => {
   const router: ExpressRouter = ExpressRouter({ caseSensitive: true });
   const logger: ILogger = new PinoLogger();
-  const dbProvider = new SequelizeDatabaseProvider({ Email: emailModel },);
   const queueProvider = new BullMQQueueProvider('emailQueue', { ...config.redis });
   const smtpService = new SmtpService(logger, queueProvider);
-  const emailStorageService = new EmailStorageService(dbProvider);
+  const emailStorageService = new EmailStorageService(sequelizeDatabaseProviderInstance);
   const smtpController = new SmtpController(smtpService, emailStorageService);
 
   router.post('/:clientId/send', smtpController.sendEmail.bind(smtpController));

@@ -1,15 +1,35 @@
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import appConfig from "./app";
-import { Rotation } from "../../types";
+import { mkdir, stat } from 'fs/promises';
+import appConfig from "./app.ts";
+import type { Rotation } from "../../types/index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = fileURLToPath(dirname(__filename))
+const __dirname = dirname(dirname(dirname(__filename)));
+
+
+// ensure log directory exist
+const ensureLogdir = async (dir: string) => {
+    try {
+        // Check directory exists
+        await stat(dir);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.code === 'ENOENT') {
+            // Create directory
+            await mkdir(dir, { recursive: true });
+        } else {
+            throw err;
+        }
+    }
+}
+
+const logDir = join(__dirname, 'storage', 'logs');
+await ensureLogdir(logDir);
 
 const appName = appConfig.appName;
-const logDir = join(__dirname, 'storage', 'logs');
 const rotation: Rotation = process.env.PINO_LOG_ROTATION as Rotation || 'daily' as Rotation;
-const logLevel = process.env.PINO_LOG_LEVEL || 'info';
+const logLevel = process.env.LOG_LEVEL || 'info';
 
 // For daily rotation, filename will be appname-YYYY-MM-DD.log
 // For size-based, filename will be appname.log (rotated by pino/file-rotate)

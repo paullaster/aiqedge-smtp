@@ -1,15 +1,20 @@
-import { Email } from '../../types';
-import { ILoggingProvider, IQueueProvider } from '../../domain/repositories/smtpRepository';
+import type { ILoggingProvider, IQueueProvider } from '../../domain/repositories/smtpRepository.ts';
+import type { Email } from '../../types/index.ts';
 
 /**
  * SmtpService handles the orchestration of email sending, logging, and queueing.
  * It uses dependency injection for all providers, enabling full testability and scalability.
  */
 export class SmtpService {
+    private logger: ILoggingProvider;
+    private queueProvider: IQueueProvider;
     constructor(
-        private logger: ILoggingProvider,
-        private queueProvider: IQueueProvider
-    ) { }
+        logger: ILoggingProvider,
+        queueProvider: IQueueProvider
+    ) {
+        this.logger = logger;
+        this.queueProvider = queueProvider;
+    }
 
     /**
      * Enqueue an email job for background sending using the injected queue provider.

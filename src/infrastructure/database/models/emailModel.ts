@@ -19,7 +19,7 @@ export default function (sequelize: Sequelize, DataTypes: any) {
          * 
          * @param {any} models 
          */
-        static associate(models: any) {
+        static associate(_models: any) {
         }
     }
     EmailModel.init({

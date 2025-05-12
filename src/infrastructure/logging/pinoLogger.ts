@@ -1,20 +1,21 @@
-import { ILoggingProvider } from '../../domain/repositories/smtpRepository';
-import config from '../config';
-import { createLogger } from './loggerFactory';
+import type { ILoggingProvider } from '../../domain/repositories/smtpRepository.ts';
+import pinoConfig from '../config/pino.ts';
+import appConfig from '../config/app.ts';
+import { createLogger } from './loggerFactory.ts';
 
 export class PinoLogger implements ILoggingProvider {
     private logger;
     private level: string;
     constructor(channel: string = 'app') {
-        this.level = config.pino.level || 'info';
+        this.level = pinoConfig.level;
         this.logger = createLogger({
             channel,
             level: this.level,
-            logDir: config.pino.logDir,
-            rotation: config.pino.rotation,
-            rotationConfig: config.pino.rotationConfig,
-            environment: config.app.environment,
-            appName: config.pino.appName,
+            logDir: pinoConfig.logDir,
+            rotation: pinoConfig.rotation,
+            rotationConfig: pinoConfig.rotationConfig,
+            environment: appConfig.environment,
+            appName: pinoConfig.appName,
         });
     }
 
