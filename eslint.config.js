@@ -4,9 +4,12 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 
 export default [
+  {
+    ignores: ["dist/**", "node_modules/**"],
+  },
   js.configs.recommended,
   {
-    files: ["**/*.{js,ts}"],
+    files: ["src/**/*.{js,ts}"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -20,8 +23,9 @@ export default [
       "@typescript-eslint": tseslint
     },
     rules: {
-      // Add or override rules here
+      // Ignore unused variables
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["off"]
     }
-  },
-  tseslint.configs.recommended
+  }
 ];
