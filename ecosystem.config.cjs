@@ -8,7 +8,7 @@ module.exports = {
             env_file: './.env.production',
             post_update: ["npm install", "npm run build", "npm run migrate", "echo Email client is running"],
             watch: false,
-            instances: 'max',
+            instances: '1',
             exec_mode: 'cluster',
             max_memory_restart: '1800M',
             env_production: {
