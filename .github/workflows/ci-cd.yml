@@ -25,7 +25,9 @@ jobs:
       - name: Build
         run: npm run build
       - name: Run migrations
-        run: npm run dev:migrate
+        run: npm run migrate
+      - name: Start Application
+        run: npm start
 
   deploy:
     needs: build-test

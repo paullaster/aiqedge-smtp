@@ -6,9 +6,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "NODE_ENV=development node --experimental-transform-types --watch --env-file=./.env.development src/server.ts",
-    "qa": "NODE_ENV=testing node --experimental-transform-types --watch --env-file=./.env.test src/server.ts",
-    "staging": "NODE_ENV=staging node --experimental-transform-types --watch --env-file=./.env.staging src/server.ts",
-    "start": "NODE_ENV=production node --experimental-transform-types --watch --env-file=./.env.production src/server.ts",
+    "qa": "NODE_ENV=testing node --experimental-transform-types --env-file=./.env.test src/server.ts",
+    "staging": "NODE_ENV=staging node --experimental-transform-types --env-file=./.env.staging src/server.ts",
+    "start": "NODE_ENV=production node --experimental-transform-types --env-file=./.env.production src/server.ts",
     "test": "jest",
     "dev:migrate": "NODE_ENV=development node --env-file=./.env.development --experimental-vm-modules ./node_modules/.bin/sequelize-cli db:migrate --config dist/infrastructure/config/db.js",
     "migrate": "NODE_ENV=production node --env-file=./.env.production --experimental-vm-modules ./node_modules/.bin/sequelize-cli db:migrate --config dist/infrastructure/config/db.js"
