@@ -103,55 +103,6 @@ src/
    npm start
    ```
 
-## Environment Variables
-
-Add these to your `.env` file:
-
-```
-# PostgreSQL
-PG_HOST=localhost
-PG_PORT=5432
-PG_USER=postgres
-PG_PASSWORD=postgres
-PG_DATABASE=aiqedge
-
-# Redis (for BullMQ)
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-# SMTP
-SMTP_HOST=localhost
-SMTP_PORT=587
-SMTP_USER=user@example.com
-SMTP_PASS=password
-
-# App
-APP_PORT=3000
-
-# Logging
-PINO_LOG_LEVEL=info
-```
-
-## Database Schema
-
-Run this SQL to create or migrate the required `emails` table to support all Nodemailer options:
-
-```sql
-CREATE TABLE IF NOT EXISTS emails (
-  id SERIAL PRIMARY KEY,
-  to_address VARCHAR(255) NOT NULL,
-  from_address VARCHAR(255) NOT NULL,
-  cc TEXT,
-  bcc TEXT,
-  reply_to TEXT,
-  subject VARCHAR(255) NOT NULL,
-  html TEXT,
-  attachments JSONB,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-```
-
 ## Usage
 
 - **Development:**
@@ -171,6 +122,7 @@ CREATE TABLE IF NOT EXISTS emails (
 - **POST** `/smtp/:random-code/send`
 
   - Request Body (all Nodemailer options supported):
+
     ```json
 
         {
