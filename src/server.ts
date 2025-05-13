@@ -4,6 +4,7 @@ import os from 'node:os';
 import config from './infrastructure/config/index.ts';
 import { sequelizeDatabaseProviderInstance } from './infrastructure/database/index.ts';
 import { PinoLogger } from './infrastructure/logging/pinoLogger.ts';
+import { initializeProcessMonitor } from './infrastructure/logging/processMonitor.ts';
 import type { ILogger } from './types/index.ts';
 
 const PORT = config.app.port || 3800;
@@ -14,6 +15,8 @@ const loggerInstance: ILogger = new PinoLogger('db');
 await sequelizeDatabaseProviderInstance.initDb(loggerInstance);
 const numCPUs = parseInt(config.cluster.clusterWorkers || os.cpus().length.toString(), 10);
 
+
+initializeProcessMonitor()
 
 function startServer() {
   const server = app.listen(PORT, () => {
