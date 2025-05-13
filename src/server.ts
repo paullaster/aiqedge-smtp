@@ -1,6 +1,6 @@
 import app from './app.ts';
-import cluster from 'node:cluster';
-import os from 'node:os';
+// import cluster from 'node:cluster';
+// import os from 'node:os';
 import config from './infrastructure/config/index.ts';
 import { sequelizeDatabaseProviderInstance } from './infrastructure/database/index.ts';
 import { PinoLogger } from './infrastructure/logging/pinoLogger.ts';
@@ -13,7 +13,7 @@ const PORT = config.app.port || 3800;
 // create a logger
 const loggerInstance: ILogger = new PinoLogger('db');
 await sequelizeDatabaseProviderInstance.initDb(loggerInstance);
-const numCPUs = parseInt(config.cluster.clusterWorkers || os.cpus().length.toString(), 10);
+// const numCPUs = parseInt(config.cluster.clusterWorkers || os.cpus().length.toString(), 10);
 
 
 initializeProcessMonitor()
@@ -40,15 +40,15 @@ function startServer() {
   process.on('SIGINT', shutdown);
 }
 
-if (cluster.isPrimary) {
-  console.log(`Primary process ${process.pid} is running. Spawning ${numCPUs} workers...`);
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-  cluster.on('exit', (worker, code, signal) => {
-    console.warn(`Worker ${worker.process.pid} died (${signal || code}). Restarting...`);
-    cluster.fork();
-  });
-} else {
-  startServer();
-}
+startServer();
+// if (cluster.isPrimary) {
+//   console.log(`Primary process ${process.pid} is running. Spawning ${numCPUs} workers...`);
+//   for (let i = 0; i < numCPUs; i++) {
+//     cluster.fork();
+//   }
+//   cluster.on('exit', (worker, code, signal) => {
+//     console.warn(`Worker ${worker.process.pid} died (${signal || code}). Restarting...`);
+//     cluster.fork();
+//   });
+// } else {
+// }
