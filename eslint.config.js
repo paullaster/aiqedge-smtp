@@ -4,6 +4,7 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 
 export default [
+  js,
   {
     files: ["**/*.{js,ts}"],
     languageOptions: {
@@ -18,12 +19,9 @@ export default [
     plugins: {
       "@typescript-eslint": tseslint
     },
-    extends: [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
-    ],
     rules: {
       // Add or override rules here
     }
-  }
+  },
+  tseslint.configs.recommended
 ];
