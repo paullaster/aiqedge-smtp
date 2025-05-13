@@ -6,7 +6,7 @@ module.exports = {
             interpreter: 'node',
             interpreter_args: "--experimental-transform-types --max_old_space_size=1400 --env-file=./.env.development",
             env_file: './.env.development',
-            post_update: ["npm install", "npm run build", "npm run dev:migrate", "echo Email client is running"],
+            post_update: ["npm install", "npm run build", "npm run migrate", "echo Email client is running"],
             watch: false,
             instances: 'max',
             exec_mode: 'cluster',
