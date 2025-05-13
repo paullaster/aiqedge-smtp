@@ -18,33 +18,21 @@ export interface LoggerFactoryOptions {
 
 export function createLogger(opts: LoggerFactoryOptions) {
     let transport: LoggerOptions['transport'];
-    const baseFile =
-        opts.rotation === 'daily'
-            ? `${opts.appName}-${opts.channel}-${new Date().toISOString().slice(0, 10)}.log`
-            : `${opts.appName}-${opts.channel}.log`;
-    const logFile = join(opts.logDir, baseFile);
+    const baseFile = `${opts.appName}-${opts.channel}`
 
     if (opts.environment === 'development') {
         transport = {
             target: 'pino-pretty',
             options: { colorize: true }
         };
-    } else if (opts.rotation === 'daily' || opts.rotation === 'size') {
-        transport = {
-            target: 'pino-roll',
-            options: {
-                filename: logFile,
-                interval: opts.rotationConfig.interval,
-                maxSize: opts.rotationConfig.maxSize,
-                maxFiles: opts.rotationConfig.maxFiles,
-                mkdir: true,
-            }
-        };
     } else {
         transport = {
             target: 'pino-roll',
             options: {
-                destination: logFile,
+                file: join(opts.logDir, baseFile),
+                frequency: opts.rotation,
+                size: opts.rotationConfig.maxSize,
+                dateFormat: 'yyyy-MM-dd',
                 mkdir: true,
             }
         };
