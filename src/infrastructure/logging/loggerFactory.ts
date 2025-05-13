@@ -31,7 +31,7 @@ export function createLogger(opts: LoggerFactoryOptions) {
         };
     } else if (opts.rotation === 'daily' || opts.rotation === 'size') {
         transport = {
-            target: 'pino/file-rotate',
+            target: 'pino-roll',
             options: {
                 filename: logFile,
                 interval: opts.rotationConfig.interval,
@@ -42,7 +42,7 @@ export function createLogger(opts: LoggerFactoryOptions) {
         };
     } else {
         transport = {
-            target: 'pino/file',
+            target: 'pino-roll',
             options: {
                 destination: logFile,
                 mkdir: true,
