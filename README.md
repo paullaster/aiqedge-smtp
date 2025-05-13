@@ -103,55 +103,6 @@ src/
    npm start
    ```
 
-## Environment Variables
-
-Add these to your `.env` file:
-
-```
-# PostgreSQL
-PG_HOST=localhost
-PG_PORT=5432
-PG_USER=postgres
-PG_PASSWORD=postgres
-PG_DATABASE=aiqedge
-
-# Redis (for BullMQ)
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-# SMTP
-SMTP_HOST=localhost
-SMTP_PORT=587
-SMTP_USER=user@example.com
-SMTP_PASS=password
-
-# App
-APP_PORT=3000
-
-# Logging
-PINO_LOG_LEVEL=info
-```
-
-## Database Schema
-
-Run this SQL to create or migrate the required `emails` table to support all Nodemailer options:
-
-```sql
-CREATE TABLE IF NOT EXISTS emails (
-  id SERIAL PRIMARY KEY,
-  to_address VARCHAR(255) NOT NULL,
-  from_address VARCHAR(255) NOT NULL,
-  cc TEXT,
-  bcc TEXT,
-  reply_to TEXT,
-  subject VARCHAR(255) NOT NULL,
-  html TEXT,
-  attachments JSONB,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-```
-
 ## Usage
 
 - **Development:**
@@ -169,51 +120,56 @@ CREATE TABLE IF NOT EXISTS emails (
 ### Send Email
 
 - **POST** `/smtp/:random-code/send`
+
   - Request Body (all Nodemailer options supported):
-    `json
-    {
-    "greetings": "Dear Ian Sendwa",
-    "to": "ispaokoth@gmail.com",
-    "from": "otto.harris63@ethereal.email",
-    "subject": "Testing AIQEDGE-SMTP For Integration",
-    "body": [
+
+    ```json
+
         {
-            "line": "I an sending this email specifically to test the functionality of this service",
-            "style": {
-                "fontWeight": "500",
-                "color": "green"
+        "greetings": "Dear Ian Sendwa",
+        "to": "ispaokoth@gmail.com",
+        "from": "otto.harris63@ethereal.email",
+        "subject": "Testing AIQEDGE-SMTP For Integration",
+        "body": [
+            {
+                "line": "I an sending this email specifically to test the functionality of this service",
+                "style": {
+                    "fontWeight": "500",
+                    "color": "green"
+                }
             }
-        }
-    ],
-    "actions": [
-        {
-            "caption": "Click to see mwaa!",
-            "url": "https://mwaest.com",
-            "style": {
-                "backgroundColor": "red"
+        ],
+        "actions": [
+            {
+                "caption": "Click to see mwaa!",
+                "url": "https://mwaest.com",
+                "style": {
+                    "backgroundColor": "red"
+                }
             }
+        ],
+        "cc": [
+            "cc1@example.com",
+            "cc2@example.com"
+        ],
+        "bcc": "bcc@example.com",
+        "replyTo": "reply@example.com",
+        "attachments": [
+            {
+                "filename": "beneficialDisclore",
+                "content": "SGVsbG8gd29ybGQ="
+                "mimetype": "application/pdf"
+            }
+        ],
+        "regards": {
+            "caption": "Best Regard",
+            "name": "Sir. Tester",
+            "signature": "Developer Testing"
         }
-    ],
-    "cc": [
-        "cc1@example.com",
-        "cc2@example.com"
-    ],
-    "bcc": "bcc@example.com",
-    "replyTo": "reply@example.com",
-    "attachments": [
-        {
-            "filename": "beneficialDisclore",
-            "content": "SGVsbG8gd29ybGQ="
-            "mimetype": "application/pdf"
-        }
-    ],
-    "regards": {
-        "caption": "Best Regard",
-        "name": "Sir. Tester",
-        "signature": "Developer Testing"
+
     }
-}
-    `
+    ```
+
   - All fields are optional except `to`, `from`, and `subject`. If `text`/`html` are omitted, the body is generated using @brainspore/shackuz.
 
 ### Retrieve All Emails
