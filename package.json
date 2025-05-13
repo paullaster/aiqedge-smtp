@@ -10,7 +10,8 @@
     "staging": "NODE_ENV=staging node --experimental-transform-types --watch --env-file=./.env.staging src/server.ts",
     "start": "NODE_ENV=production node --experimental-transform-types --watch --env-file=./.env.production src/server.ts",
     "test": "jest",
-    "dev:migrate": "NODE_ENV=development node --env-file=./.env.development --experimental-vm-modules ./node_modules/.bin/sequelize-cli db:migrate --config dist/infrastructure/config/db.js"
+    "dev:migrate": "NODE_ENV=development node --env-file=./.env.development --experimental-vm-modules ./node_modules/.bin/sequelize-cli db:migrate --config dist/infrastructure/config/db.js",
+    "migrate": "NODE_ENV=production node --env-file=./.env.production --experimental-vm-modules ./node_modules/.bin/sequelize-cli db:migrate --config dist/infrastructure/config/db.js"
   },
   "repository": {
     "type": "git",
@@ -35,16 +36,20 @@
     "sequelize-typescript": "^2.1.6"
   },
   "devDependencies": {
+    "@eslint/js": "^9.26.0",
     "@types/express": "^5.0.1",
     "@types/jest": "^27.0.2",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^22.15.17",
     "@types/nodemailer": "^6.4.17",
     "dotenv-cli": "^8.0.0",
+    "eslint": "^9.26.0",
+    "globals": "^16.1.0",
     "jest": "^29.7.0",
     "sequelize-cli": "^6.6.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
   },
   "engines": {
     "node": ">=24.0.0"

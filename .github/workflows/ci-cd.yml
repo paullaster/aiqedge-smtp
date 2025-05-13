@@ -24,6 +24,8 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Run migrations
+        run: npm run dev:migrate
 
   deploy:
     needs: build-test
