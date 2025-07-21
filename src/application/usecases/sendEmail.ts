@@ -11,7 +11,8 @@ export const executeSendEmail = async (
   emailStorageService: EmailStorageService
 ) => {
   // Validate required fields
-  if (!emailData.to || !emailData.from || !emailData.subject || !emailData.body) {
+  const content = emailData.html || emailData.body
+  if (!emailData.to || !emailData.from || !emailData.subject || !content) {
     throw new AppError('Missing required email fields: to, from, subject', 400);
   }
   // Validate attachments if present
