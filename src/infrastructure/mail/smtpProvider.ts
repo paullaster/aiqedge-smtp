@@ -8,7 +8,10 @@ export class SmtpProvider implements ISmtpProvider {
         switch (provider) {
             case 'nodemailer': {
                 const nodeMilerProvider = new EmailTransportProvider();
-                const info = await nodeMilerProvider.sendMail(email);
+                const info = await nodeMilerProvider.sendMail(email).catch((reason) => {
+                    console.log('reason for rejection: ', reason);
+                });
+                console.log('info: ', info);
                 return { success: true, message: 'Email sent via infrastructure SMTP', info };
             }
         }

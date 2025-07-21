@@ -11,8 +11,10 @@ export const executeSendEmail = async (
   emailStorageService: EmailStorageService
 ) => {
   // Validate required fields
-  const content = emailData.html || emailData.body
-  if (!emailData.to || !emailData.from || !emailData.subject || !content) {
+  const content = emailData.html || emailData.body;
+  //console.log(emailData);
+  //console.log('email to: ', !emailData.to, 'email from:  ', !emailData.from, 'subject: ', !emailData.subject, 'content: ', (content === undefined || content === null));
+  if (!emailData.to || !emailData.from || !emailData.subject || (content === undefined || content === null)) {
     throw new AppError('Missing required email fields: to, from, subject', 400);
   }
   // Validate attachments if present
@@ -77,8 +79,10 @@ export const executeSendEmail = async (
 const htmlBuilder = (emailData: RequestBody) => {
   const emailBody = new EmailTemplateBuilder({ appConfig: { title: 'Email Service Prover' } });
   emailBody.addBlock('p', emailData.greetings || 'Greetings,', { fontWeight: 'bold' });
-  for (const line of emailData.body) {
-    emailBody.addBlock('p', line.line, line.style);
+  if ('body' in emailData && Array.isArray(emailData.body)) {
+    for (const line of emailData.body) {
+      emailBody.addBlock('p', line.line, line.style);
+    }
   }
   if (emailData.actions) {
     for (const action of emailData.actions) {
