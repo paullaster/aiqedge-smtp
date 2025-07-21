@@ -18,11 +18,18 @@
     "type": "git",
     "url": "git+https://github.com/paullaster/aiqedge-smtp.git"
   },
-  "keywords": ["node", "typescript", "smtp", "clean-architecture"],
+  "keywords": [
+    "node",
+    "typescript",
+    "smtp",
+    "clean-architecture"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
     "@brainspore/shackuz": "^1.4.1",
+    "@bull-board/express": "^6.10.1",
+    "bull-board": "^1.7.2",
     "bullmq": "^5.52.2",
     "express": "^5.1.0",
     "ioredis": "^5.6.1",

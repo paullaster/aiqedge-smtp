@@ -30,7 +30,8 @@ export interface RequestBody {
   to: string | string[];
   from: string;
   subject: string;
-  body: BodyOfRequestTypes[];
+  body?: BodyOfRequestTypes[];
+  html?: string;
   actions?: ActionOfRequestTypes[];
   regards?: EmailRegardsType
   cc?: string | string[];
