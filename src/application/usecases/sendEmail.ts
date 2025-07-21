@@ -12,10 +12,18 @@ export const executeSendEmail = async (
 ) => {
   // Validate required fields
   const content = emailData.html || emailData.body;
-  //console.log(emailData);
-  //console.log('email to: ', !emailData.to, 'email from:  ', !emailData.from, 'subject: ', !emailData.subject, 'content: ', (content === undefined || content === null));
-  if (!emailData.to || !emailData.from || !emailData.subject || (content === undefined || content === null)) {
-    throw new AppError('Missing required email fields: to, from, subject', 400);
+  const requiredFields = [
+    { field: emailData.to, name: 'to' },
+    { field: emailData.from, name: 'from' },
+    { field: emailData.subject, name: 'subject' }
+  ];
+  for (const { field, name } of requiredFields) {
+    if (!field) {
+      throw new AppError(`Missing required email field: ${name}`, 400);
+    }
+  }
+  if (content === undefined || content === null) {
+    throw new AppError('Missing required email body', 400);
   }
   // Validate attachments if present
   if (emailData.attachments && !Array.isArray(emailData.attachments)) {
