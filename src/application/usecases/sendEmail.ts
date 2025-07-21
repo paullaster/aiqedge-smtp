@@ -50,7 +50,12 @@ export const executeSendEmail = async (
     delete emailData.attachments
   }
   // Save email to DB
-  const html = htmlBuilder(emailData);
+  let html: string = "";
+  if (emailData.html) {
+    html = emailData.html;
+  } else {
+    html = htmlBuilder(emailData);
+  }
   const emailOptions: Email = {
     to: emailData.to,
     from: emailData.from,
