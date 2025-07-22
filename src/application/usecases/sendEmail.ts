@@ -47,7 +47,7 @@ export const executeSendEmail = async (
           mimetype: att.mimetype
         });
         filePath = path;
-        filename = finalFilename;
+        filename = finalFilename.split("_").slice(2).join('_');
         mimetype = ext
       }
 
