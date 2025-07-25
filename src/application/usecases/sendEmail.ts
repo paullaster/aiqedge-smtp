@@ -2,14 +2,27 @@ import { AppError, EmailEntity } from '../../domain/entities/emailEntity.ts';
 import { EmailStorageService } from '../services/emailStorageService.ts';
 import { SmtpService } from '../services/smtpService.ts';
 import { EmailTemplateBuilder } from '@brainspore/shackuz';
-import type { Email, EmailAttachment, RequestBody } from '../../types/index.ts';
+import type { Email, EmailAttachment, EmailPayload, RequestBody, SmtpConfigShape } from '../../types/index.ts';
 
 export const executeSendEmail = async (
   emailData: RequestBody,
   clientId: string,
   smtpService: SmtpService,
-  emailStorageService: EmailStorageService
+  emailStorageService: EmailStorageService,
+  smtpConfig: SmtpConfigShape
 ) => {
+  const requiredParams = [
+    { value: emailData, name: 'emailData' },
+    { value: clientId, name: 'clientId' },
+    { value: smtpService, name: 'smtpService' },
+    { value: emailStorageService, name: 'emailStorageService' },
+    { value: smtpConfig, name: 'smtpConfig' }
+  ];
+  for (const { value, name } of requiredParams) {
+    if (value === undefined || value === null) {
+      throw new AppError(`Missing required parameter: ${name}`, 400);
+    }
+  }
   // Validate required fields
   const content = emailData.html || emailData.body;
   const requiredFields = [
@@ -79,7 +92,11 @@ export const executeSendEmail = async (
   const emailEntity = new EmailEntity(emailOptions);
   await emailStorageService.saveEmail(emailEntity);
   // Send email (enqueue for background sending)
-  const result = await smtpService.send(emailOptions);
+  const email: EmailPayload = {
+    emailOptions,
+    smtpConfig,
+  };
+  const result = await smtpService.send(email);
   return result;
 };
 

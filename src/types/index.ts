@@ -101,3 +101,20 @@ export interface ILogger {
   log(message: string, meta?: Record<string, any>): void;
   error(message: string, meta?: Record<string, any>): void;
 }
+
+type SmtpAuth = {
+  user: string;
+  pass: string;
+};
+
+export type SmtpConfigShape = {
+  host: string;
+  port: number;
+  secure: boolean;
+  auth: SmtpAuth;
+};
+
+export type EmailPayload = {
+  emailOptions: Email,
+  smtpConfig: SmtpConfigShape,
+}
