@@ -1,5 +1,5 @@
 import type { ILoggingProvider, IQueueProvider } from '../../domain/repositories/smtpRepository.ts';
-import type { Email, EmailPayload } from '../../types/index.ts';
+import type { EmailPayload } from '../../types/index.ts';
 
 /**
  * SmtpService handles the orchestration of email sending, logging, and queueing.
