@@ -3,6 +3,7 @@ import { AppError } from '../../domain/entities/emailEntity.ts';
 import { executeSendEmail } from '../../application/usecases/sendEmail.ts';
 import { SmtpService } from '../../application/services/smtpService.ts';
 import { EmailStorageService } from '../../application/services/emailStorageService.ts';
+import type { SmtpConfigShape } from '../../types/index.ts';
 
 class SmtpController {
     private smtpService: SmtpService;
@@ -20,11 +21,13 @@ class SmtpController {
         try {
             const clientId = req.params.clientId;
             const emailData = req.body;
+            const smtpconfig: SmtpConfigShape = req.smtpConfig;
             const result = await executeSendEmail(
                 emailData,
                 clientId,
                 this.smtpService,
-                this.emailStorageService
+                this.emailStorageService,
+                smtpconfig
             );
             res.status(200).json({ message: 'Email sent successfully', result });
         } catch (error) {

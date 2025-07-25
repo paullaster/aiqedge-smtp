@@ -1,13 +1,8 @@
 import { EmailEntity } from "../entities/emailEntity.ts";
-import type { EmailProviders } from "../../types/index.ts";
+import type { EmailPayload, EmailProviders } from "../../types/index.ts";
 
 export interface ISmtpProvider {
-    sendMail(provider: EmailProviders, email: {
-        to: string;
-        from: string;
-        subject: string;
-        body: string;
-    }): Promise<{ success: boolean; message: string }>;
+    sendMail(provider: EmailProviders, email: EmailPayload): Promise<{ success: boolean; message: string }>;
 }
 
 export interface ILoggingProvider {

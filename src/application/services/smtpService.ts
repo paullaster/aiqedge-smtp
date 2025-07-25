@@ -1,5 +1,5 @@
 import type { ILoggingProvider, IQueueProvider } from '../../domain/repositories/smtpRepository.ts';
-import type { Email } from '../../types/index.ts';
+import type { Email, EmailPayload } from '../../types/index.ts';
 
 /**
  * SmtpService handles the orchestration of email sending, logging, and queueing.
@@ -20,8 +20,8 @@ export class SmtpService {
      * Enqueue an email job for background sending using the injected queue provider.
      * @param email The email object containing all Nodemailer options.
      */
-    async send(email: Email) {
-        this.logger.log(`Queueing email to: ${email.to}`);
+    async send(email: EmailPayload) {
+        this.logger.log(`Queueing email to: ${email.emailOptions.to}`);
         try {
             await this.queueProvider.add('emailQueue', email);
             this.logger.log('Email enqueued successfully');

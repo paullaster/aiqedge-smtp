@@ -7,8 +7,13 @@ import { EmailStorageService } from '../../application/services/emailStorageServ
 import { logger } from '../../infrastructure/logging/index.ts';
 import config from '../../infrastructure/config/index.ts';
 import type { Application, Request, Response } from 'express';
+import { useCustomSMTPConfig } from '../../interfaces/middleware/purgeCustomSmtpConfig.ts';
 
 interface IApp extends Application { }
+// Helper to wrap async route handlers
+const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 
 export const setRoutes = (app: IApp): void => {
   const router: ExpressRouter = ExpressRouter({ caseSensitive: true });
@@ -17,7 +22,11 @@ export const setRoutes = (app: IApp): void => {
   const emailStorageService = new EmailStorageService(sequelizeDatabaseProviderInstance);
   const smtpController = new SmtpController(smtpService, emailStorageService);
 
-  router.post('/:clientId/send', smtpController.sendEmail.bind(smtpController));
+  router.post(
+    '/:clientId/send',
+    asyncHandler(useCustomSMTPConfig(config.smtp)),
+    asyncHandler(smtpController.sendEmail.bind(smtpController))
+  );
   router.get('/:clientId/emails', async (_req: Request, res: Response) => {
     try {
       const emails = await emailStorageService.getAllEmails();
