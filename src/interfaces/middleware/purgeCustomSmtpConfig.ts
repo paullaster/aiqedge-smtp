@@ -20,15 +20,13 @@ export function useCustomSMTPConfig(defaultConfig: smtConfig) {
             if (!customConfig.user) missing.push('user');
             if (!customConfig.pass) missing.push('pass');
             // Enforce 'from' exists
-            let fromValue = req.body.from || customConfig.from;
+            let fromValue = customConfig.from;
             if (!fromValue) missing.push('from');
             if (missing.length > 0) {
                 return res.status(400).json({ error: `Missing required SMTP config fields: ${missing.join(', ')}` });
             }
-            // Set req.body.from if not present
-            if (!req.body.from) {
-                req.body.from = customConfig.from;
-            }
+            // Set req.body.from
+            req.body.from = customConfig.from;
             // Coerce secure to boolean
             let secureValue: boolean;
             if (typeof customConfig.secure === 'boolean') {

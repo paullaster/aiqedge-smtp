@@ -20,14 +20,14 @@ export const setRoutes = (app: IApp): void => {
   const queueProvider = new BullMQQueueProvider('emailQueue', { ...config.redis });
   const smtpService = new SmtpService(logger, queueProvider);
   const emailStorageService = new EmailStorageService(sequelizeDatabaseProviderInstance);
-  const smtpController = new SmtpController(smtpService, emailStorageService);
+  const smtpController = new SmtpController(logger, smtpService, emailStorageService);
 
   router.post(
-    '/:clientId/send',
+    '/send',
     asyncHandler(useCustomSMTPConfig(config.smtp)),
     asyncHandler(smtpController.sendEmail.bind(smtpController))
   );
-  router.get('/:clientId/emails', async (_req: Request, res: Response) => {
+  router.get('/emails', async (_req: Request, res: Response) => {
     try {
       const emails = await emailStorageService.getAllEmails();
       res.status(200).json({ emails });
@@ -45,5 +45,13 @@ export const setRoutes = (app: IApp): void => {
       res.status(500).json({ status: 'error', error: error.message });
     }
   });
+
+
+
+  // SMTP Client
+
+
+
+
   app.use(`/api/${config.app.appName}/email/${config.app.appVersion}`, router);
 };
