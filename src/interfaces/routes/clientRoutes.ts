@@ -14,7 +14,15 @@ export const clientRoutes = (mainRouter: Router): void => {
     const clientController = new ClientController(logger, createClientUseCase);
 
     const clientSchema = Joi.object({
-
+        name: Joi.string().required(),
+        config: Joi.object({
+            from: Joi.string().required(),
+            host: Joi.string().required(),
+            port: Joi.number().required(),
+            user: Joi.string().required(),
+            pass: Joi.string().required(),
+            secure: Joi.boolean().required()
+        })
     });
     mainRouter.post(
         '/client',

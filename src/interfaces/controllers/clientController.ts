@@ -15,7 +15,7 @@ export class ClientController {
         try {
             const smtClientData: SMTPClient = { ...req.body };
             const smtpClient = await this.createClientUseCase.executeCreateSMTPClient(smtClientData);
-            res.send(200).json({ message: 'Client created successfully', client: smtpClient });
+            res.status(200).json({ message: 'Client created successfully', client: smtpClient });
         } catch (error) {
             (req as any).logger = this.logger;
             next(error);

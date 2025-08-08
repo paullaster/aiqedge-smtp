@@ -14,7 +14,7 @@ export class SMTPClient extends Client {
             clientId: this.clientId,
             clientName: this.clientName,
             service: this.service,
-            smtpconfig: this.smtpconfig,
+            smtpConfig: this.smtpconfig,
         };
     }
     static smtpClientFromModel(model: ISMTPClient) {
