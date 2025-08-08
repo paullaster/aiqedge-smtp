@@ -1,7 +1,7 @@
 import type { Model, Sequelize, ModelStatic } from "sequelize";
 import type { ISMTPClientRepository } from "../../domain/repositories/clientRespository.ts";
 import type { ISMTPClient } from "../../domain/interfaces/IClient.ts";
-import { SMTPClient } from "../../domain/entities/smtpClient.js";
+import { SMTPClient } from "../../domain/entities/smtpClient.ts";
 import { AppError } from "../../domain/entities/emailEntity.ts";
 import type { ILoggingProvider } from "../../domain/repositories/smtpRepository.ts";
 

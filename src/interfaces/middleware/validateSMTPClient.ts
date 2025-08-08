@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { errorHandler } from "../controllers/errorHandler.js";
+import { errorHandler } from "../controllers/errorHandler.ts";
 import type { IValidateClientTokenUseCase } from "../../domain/interfaces/useCases.ts";
 import { AppError } from "../../domain/entities/emailEntity.ts";
 import type { ILoggingProvider } from "../../domain/repositories/smtpRepository.ts";

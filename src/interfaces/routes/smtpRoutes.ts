@@ -8,10 +8,14 @@ import { logger } from '../../infrastructure/logging/index.ts';
 import config from '../../infrastructure/config/index.ts';
 import type { Application, Request, Response } from 'express';
 import { useCustomSMTPConfig } from '../../interfaces/middleware/purgeCustomSmtpConfig.ts';
+import { clientRoutes } from './clientRoutes.ts';
+import { validateSMTPClient } from '../../interfaces/middleware/validateSMTPClient.ts';
+import { ValidateClientToken } from '../../application/usecases/validateClientToken.ts';
+import { SequelizeSMTPClientRepository } from '../../infrastructure/repositories/SequelizeClientRepository.ts';
 
 interface IApp extends Application { }
 // Helper to wrap async route handlers
-const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) => {
+export const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
@@ -21,9 +25,12 @@ export const setRoutes = (app: IApp): void => {
   const smtpService = new SmtpService(logger, queueProvider);
   const emailStorageService = new EmailStorageService(sequelizeDatabaseProviderInstance);
   const smtpController = new SmtpController(logger, smtpService, emailStorageService);
+  const smtClientRepository = new SequelizeSMTPClientRepository(logger, sequelizeDatabaseProviderInstance.sequelize, sequelizeDatabaseProviderInstance.models['Client']);
+  const validateClientTokenUseCase = new ValidateClientToken(smtClientRepository);
 
   router.post(
     '/send',
+    asyncHandler(validateSMTPClient(validateClientTokenUseCase, logger)),
     asyncHandler(useCustomSMTPConfig(config.smtp)),
     asyncHandler(smtpController.sendEmail.bind(smtpController))
   );
@@ -49,7 +56,7 @@ export const setRoutes = (app: IApp): void => {
 
 
   // SMTP Client
-
+  clientRoutes(router);
 
 
 
