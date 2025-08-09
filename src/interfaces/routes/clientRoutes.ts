@@ -7,11 +7,13 @@ import { logger } from '../../infrastructure/logging/index.ts';
 import { asyncHandler } from './smtpRoutes.ts';
 import { ValidateRequestBody } from '../middleware/validateRequestBody.ts';
 import Joi from 'joi';
+import { FetchSMTPClientUseCase } from '../../application/usecases/fetchSMTPCLient.ts';
 
 export const clientRoutes = (mainRouter: Router): void => {
     const smtpClientRepository = new SequelizeSMTPClientRepository(logger, sequelizeDatabaseProviderInstance.sequelize, sequelizeDatabaseProviderInstance.models['Client']);
     const createClientUseCase = new CreateClientUseCase(logger, smtpClientRepository);
-    const clientController = new ClientController(logger, createClientUseCase);
+    const fetchSMTPClientUseCase = new FetchSMTPClientUseCase(logger, smtpClientRepository);
+    const clientController = new ClientController(logger, createClientUseCase, fetchSMTPClientUseCase);
 
     const clientSchema = Joi.object({
         name: Joi.string().required(),
@@ -29,4 +31,6 @@ export const clientRoutes = (mainRouter: Router): void => {
         asyncHandler(ValidateRequestBody(clientSchema)),
         asyncHandler(clientController.createSMTPClient.bind(clientController))
     );
+    mainRouter.get('/client', asyncHandler(clientController.fetchAll.bind(clientController)));
+    mainRouter.get('/client/:client', asyncHandler(clientController.fetchOne.bind(clientController)));
 };
