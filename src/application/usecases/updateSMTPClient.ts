@@ -17,6 +17,27 @@ export class UpdateSMTPClientUseCase {
             }
             const existingClient = await this.smtpClientRepositories.findByPk(client);
 
+            if (!existingClient) {
+                throw new AppError("Client not found", 404);
+            }
+
+            // Dynamically update client properties based on payload
+            for (const key in payload) {
+                if (key === 'config' && typeof payload.config === 'object' && payload.config !== null) {
+                    for (const configKey in payload.config) {
+                        if (Object.prototype.hasOwnProperty.call(existingClient.smtpconfig, configKey)) {
+                            (existingClient.smtpconfig as any)[configKey] = (payload.config as any)[configKey];
+                        }
+                    }
+                } else if (Object.prototype.hasOwnProperty.call(existingClient, key) && key !== 'id' && key !== 'smtpconfig') {
+                    (existingClient as any)[key] = (payload as any)[key];
+                }
+            }
+
+            const updatedClient = await this.smtpClientRepositories.save(existingClient);
+
+            return updatedClient;
+
         } catch (error: any) {
             this.logger.error(error.message, error.stack);
             throw error;

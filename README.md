@@ -185,6 +185,144 @@ src/
     }
     ```
 
+### Client API
+
+The Client API allows you to manage SMTP clients that can be used to send emails.
+
+#### Create a New Client
+
+*   **POST** `/api/aiqedge-smtp/email/v1/client`
+
+    *   **Request Body:**
+
+        ```json
+        {
+            "name": "My Awesome App",
+            "config": {
+                "from": "youremail@example.com",
+                "host": "smtp.example.com",
+                "port": 587,
+                "user": "your-smtp-user",
+                "pass": "your-smtp-password",
+                "secure": false
+            }
+        }
+        ```
+
+    *   **Response:**
+
+        ```json
+        {
+            "message": "Success",
+            "client": {
+                "id": "some-random-id",
+                "name": "My Awesome App",
+                "config": {
+                    "from": "youremail@example.com",
+                    "host": "smtp.example.com",
+                    "port": 587,
+                    "user": "your-smtp-user",
+                    "pass": "your-smtp-password",
+                    "secure": false
+                }
+            }
+        }
+        ```
+
+#### Fetch All Clients
+
+*   **GET** `/api/aiqedge-smtp/email/v1/client`
+
+    *   **Response:**
+
+        ```json
+        {
+            "message": "Success",
+            "clients": [
+                {
+                    "id": "some-random-id",
+                    "name": "My Awesome App",
+                    "config": {
+                        "from": "youremail@example.com",
+                        "host": "smtp.example.com",
+                        "port": 587,
+                        "user": "your-smtp-user",
+                        "pass": "your-smtp-password",
+                        "secure": false
+                    }
+                }
+            ]
+        }
+        ```
+
+#### Fetch a Single Client
+
+*   **GET** `/api/aiqedge-smtp/email/v1/client/:client`
+
+    *   **URL Parameters:**
+        *   `client`: The ID of the client to fetch.
+
+    *   **Response:**
+
+        ```json
+        {
+            "message": "Success",
+            "client": {
+                "id": "some-random-id",
+                "name": "My Awesome App",
+                "config": {
+                    "from": "youremail@example.com",
+                    "host": "smtp.example.com",
+                    "port": 587,
+                    "user": "your-smtp-user",
+                    "pass": "your-smtp-password",
+                    "secure": false
+                }
+            }
+        }
+        ```
+
+#### Update a Client
+
+*   **POST** `/api/aiqedge-smtp/email/v1/client/:client`
+
+    *   **URL Parameters:**
+        *   `client`: The ID of the client to update.
+
+    *   **Request Body:**
+
+        You can provide a partial object with the properties you want to update.
+
+        ```json
+        {
+            "name": "My Awesome App Updated",
+            "config": {
+                "port": 465,
+                "secure": true
+            }
+        }
+        ```
+
+    *   **Response:**
+
+        ```json
+        {
+            "message": "Success",
+            "client": {
+                "id": "some-random-id",
+                "name": "My Awesome App Updated",
+                "config": {
+                    "from": "youremail@example.com",
+                    "host": "smtp.example.com",
+                    "port": 465,
+                    "user": "your-smtp-user",
+                    "pass": "your-smtp-password",
+                    "secure": true
+                }
+            }
+        }
+        ```
+
 ## Testing
 
 To run the tests:
