@@ -44,7 +44,7 @@ export const clientRoutes = (mainRouter: Router): void => {
         asyncHandler(ValidateRequestBody(clientSchema)),
         asyncHandler(clientController.createSMTPClient.bind(clientController))
     );
-    mainRouter.post(
+    mainRouter.patch(
         '/client/:client',
         asyncHandler(ValidateRequestBody(updateClientSchema)),
         asyncHandler(clientController.updateClient.bind(clientController))
