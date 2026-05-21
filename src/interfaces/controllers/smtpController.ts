@@ -19,7 +19,7 @@ class SmtpController {
 
     async sendEmail(req: Request, res: Response): Promise<void> {
         try {
-            const clientId = req.params.clientId;
+            const clientId = req.params.clientId as string;
             const emailData = req.body;
             const smtpconfig: SmtpConfigShape = req.smtpConfig;
             const result = await executeSendEmail(
