@@ -8,10 +8,14 @@ import { logger } from '../../infrastructure/logging/index.ts';
 import config from '../../infrastructure/config/index.ts';
 import type { Application, Request, Response } from 'express';
 import { useCustomSMTPConfig } from '../../interfaces/middleware/purgeCustomSmtpConfig.ts';
+import { clientRoutes } from './clientRoutes.ts';
+import { validateSMTPClient } from '../../interfaces/middleware/validateSMTPClient.ts';
+import { ValidateClientToken } from '../../application/usecases/validateClientToken.ts';
+import { SequelizeSMTPClientRepository } from '../../infrastructure/repositories/SequelizeClientRepository.ts';
 
 interface IApp extends Application { }
 // Helper to wrap async route handlers
-const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) => {
+export const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
@@ -20,14 +24,17 @@ export const setRoutes = (app: IApp): void => {
   const queueProvider = new BullMQQueueProvider('emailQueue', { ...config.redis });
   const smtpService = new SmtpService(logger, queueProvider);
   const emailStorageService = new EmailStorageService(sequelizeDatabaseProviderInstance);
-  const smtpController = new SmtpController(smtpService, emailStorageService);
+  const smtpController = new SmtpController(logger, smtpService, emailStorageService);
+  const smtClientRepository = new SequelizeSMTPClientRepository(logger, sequelizeDatabaseProviderInstance.sequelize, sequelizeDatabaseProviderInstance.models['Client']);
+  const validateClientTokenUseCase = new ValidateClientToken(smtClientRepository);
 
   router.post(
-    '/:clientId/send',
+    '/send',
+    asyncHandler(validateSMTPClient(validateClientTokenUseCase, logger)),
     asyncHandler(useCustomSMTPConfig(config.smtp)),
     asyncHandler(smtpController.sendEmail.bind(smtpController))
   );
-  router.get('/:clientId/emails', async (_req: Request, res: Response) => {
+  router.get('/emails', async (_req: Request, res: Response) => {
     try {
       const emails = await emailStorageService.getAllEmails();
       res.status(200).json({ emails });
@@ -45,5 +52,13 @@ export const setRoutes = (app: IApp): void => {
       res.status(500).json({ status: 'error', error: error.message });
     }
   });
+
+
+
+  // SMTP Client
+  clientRoutes(router);
+
+
+
   app.use(`/api/${config.app.appName}/email/${config.app.appVersion}`, router);
 };

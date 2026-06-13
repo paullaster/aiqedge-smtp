@@ -118,3 +118,19 @@ export type EmailPayload = {
   emailOptions: Email,
   smtpConfig: SmtpConfigShape,
 }
+
+export interface SMTPConfig {
+  from: string;
+  host: string;
+  port: number;
+  user: string;
+  pass: string;
+  secure: boolean;
+}
+
+export type SMTPClient = {
+  name: string;
+  config: SMTPConfig;
+}
+
+export type SMTPClientWithId = SMTPClient & { id: string };

@@ -4,7 +4,7 @@ import type { IDatabaseProvider } from '../../domain/repositories/smtpRepository
 import type { Environments } from '../../types/index.ts';
 
 class SequelizeDatabaseProvider implements IDatabaseProvider {
-    private sequelize: Sequelize;
+    public sequelize: Sequelize;
     public models: Record<string, any>;
 
     constructor(modelsToLoad: Record<string, (sequelize: Sequelize, DataTypes: any) => any>, env?: Environments) {
